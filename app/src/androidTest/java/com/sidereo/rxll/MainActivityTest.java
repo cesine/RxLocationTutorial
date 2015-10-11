@@ -1,28 +1,39 @@
 package com.sidereo.rxll;
 
-import android.app.Activity;
-import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.InstrumentationTestCase;
+import android.test.TouchUtils;
 import android.util.Log;
-
-import com.sidereo.rxll.MainActivity;
-
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
 /**
  */
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
     MainActivity mActivity;
 
+    public void testStartStopButton() throws Exception {
+        Log.v("MainActivityTest", "testRunButton");
+        getInstrumentation().waitForIdleSync();
+
+        TouchUtils.clickView(this, mActivity.getStartStopButton());
+
+        getInstrumentation().waitForIdleSync();
+        assertNotNull(mActivity);
+        assertNotNull(mActivity.getLocationObservable());
+    }
+
+    public void testBikeButton() throws Exception {
+        Log.v("MainActivityTest", "testRunButton");
+        getInstrumentation().waitForIdleSync();
+
+        assertNotNull(mActivity);
+        assertNotNull(mActivity.getBikeButton());
+    }
+
     public void testRunButton() throws Exception {
         Log.v("MainActivityTest", "testRunButton");
         getInstrumentation().waitForIdleSync();
 
-        Assert.assertNotNull(mActivity);
-        Assert.assertNotNull(mActivity.getRunButton());
-        mActivity.getRunButton().performClick();
+        assertNotNull(mActivity);
+        assertNotNull(mActivity.getRunButton());
     }
 
     public MainActivityTest() {
@@ -30,18 +41,17 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     @Override
-        protected void setUp() throws Exception {
+    protected void setUp() throws Exception {
         Log.v("MainActivityTest", "setUp");
         super.setUp();
         mActivity = getActivity();
         getInstrumentation().waitForIdleSync();
 
-        Assert.assertNotNull(mActivity);
-        Assert.assertNotNull(mActivity.getLocationObservable());
-        Assert.assertNotNull(mActivity.getBikeButton());
-        Assert.assertNotNull(mActivity.getRunButton());
-        Assert.assertNotNull(mActivity.getStartStopButton());
-        Assert.assertNotNull(mActivity.getLocationTextView());
-//        Assert.assertNotNull(mActivity.getSubscription());
+        assertNotNull(mActivity);
+        assertNotNull(mActivity.getLocationObservable());
+        assertNotNull(mActivity.getBikeButton());
+        assertNotNull(mActivity.getRunButton());
+        assertNotNull(mActivity.getStartStopButton());
+        assertNotNull(mActivity.getLocationTextView());
     }
 }
