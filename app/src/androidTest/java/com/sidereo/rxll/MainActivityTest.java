@@ -21,8 +21,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         getInstrumentation().waitForIdleSync();
 
         Assert.assertNotNull(mActivity);
-        Assert.assertNotNull(mActivity.getRun());
-        mActivity.getRun().performClick();
+        Assert.assertNotNull(mActivity.getRunButton());
+        mActivity.getRunButton().performClick();
     }
 
     public MainActivityTest() {
@@ -38,11 +38,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Assert.assertNotNull(mActivity);
         Assert.assertNotNull(mActivity.getLocationObservable());
-        Assert.assertNotNull(mActivity.getBike());
-        Assert.assertNotNull(mActivity.getBike());
-        Assert.assertNotNull(mActivity.getRun());
-        Assert.assertNotNull(mActivity.getStartStop());
-        Assert.assertNotNull(mActivity.getLocation());
+        Assert.assertNotNull(mActivity.getBikeButton());
+        Assert.assertNotNull(mActivity.getRunButton());
+        Assert.assertNotNull(mActivity.getStartStopButton());
+        Assert.assertNotNull(mActivity.getLocationTextView());
 //        Assert.assertNotNull(mActivity.getSubscription());
     }
 }

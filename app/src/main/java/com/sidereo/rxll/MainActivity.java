@@ -44,13 +44,13 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends RxAppCompatActivity implements Action1<Location> {
     @Bind(R.id.location)
-    TextView mLocation;
+    TextView mLocationTextView;
     @Bind(R.id.start_stop)
-    Button mStartStop;
+    Button mStartStopButton;
     @Bind(R.id.run)
-    Button mRun;
+    Button mRunButton;
     @Bind(R.id.bike)
-    Button mBike;
+    Button mBikeButton;
 
     private Subscription mSubscription;
 
@@ -68,8 +68,8 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
         final Observable<LocationRequest> locationRequests = Observable
                 // Merge all sources of clicks
                 .merge(
-                        RxView.clickEvents(mRun),
-                        RxView.clickEvents(mBike)
+                        RxView.clickEvents(mRunButton),
+                        RxView.clickEvents(mBikeButton)
                 )
                 .subscribeOn(AndroidSchedulers.mainThread())
                         // Then map all clicks to Location requests
@@ -120,7 +120,7 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
          Let's listen to start stop of the thing
           */
         RxView
-                .clickEvents(mStartStop)
+                .clickEvents(mStartStopButton)
                 .subscribe(
                         new Action1<ViewClickEvent>() {
                             @Override
@@ -146,7 +146,7 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
                                 // Stop listening to all these locations !
                                 else {
                                     mSubscription.unsubscribe();
-                                    mLocation.setText("");
+                                    mLocationTextView.setText("");
                                 }
                             }
                         }
@@ -155,7 +155,7 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
 
     @Override
     public void call(Location location) {
-        this.mLocation.setText(location == null ? "" : SimpleDateFormat.getTimeInstance().format(new Date(location.getTime())) + "\n" + location.getLatitude() + " / " + location.getLongitude());
+        this.mLocationTextView.setText(location == null ? "" : SimpleDateFormat.getTimeInstance().format(new Date(location.getTime())) + "\n" + location.getLatitude() + " / " + location.getLongitude());
     }
 
     private static class ClicksToLocationRequests implements Func1<ViewClickEvent, LocationRequest> {
@@ -188,19 +188,19 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
         return mSubscription;
     }
 
-    public Button getBike() {
-        return mBike;
+    public Button getBikeButton() {
+        return mBikeButton;
     }
 
-    public Button getRun() {
-        return mRun;
+    public Button getRunButton() {
+        return mRunButton;
     }
 
-    public Button getStartStop() {
-        return mStartStop;
+    public Button getStartStopButton() {
+        return mStartStopButton;
     }
 
-    public TextView getLocation() {
-        return mLocation;
+    public TextView getLocationTextView() {
+        return mLocationTextView;
     }
 }
