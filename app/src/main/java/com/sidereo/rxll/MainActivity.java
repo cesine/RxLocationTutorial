@@ -179,4 +179,28 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
             return locationRequest;
         }
     }
+
+    public Observable<Location> getLocationObservable() {
+        return mLocationObservable;
+    }
+
+    public Subscription getSubscription() {
+        return mSubscription;
+    }
+
+    public Button getBike() {
+        return mBike;
+    }
+
+    public Button getRun() {
+        return mRun;
+    }
+
+    public Button getStartStop() {
+        return mStartStop;
+    }
+
+    public TextView getLocation() {
+        return mLocation;
+    }
 }
