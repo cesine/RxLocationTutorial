@@ -44,17 +44,17 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends RxAppCompatActivity implements Action1<Location> {
     @Bind(R.id.location)
-    TextView location;
+    TextView mLocation;
     @Bind(R.id.start_stop)
-    Button startStop;
+    Button mStartStop;
     @Bind(R.id.run)
-    Button run;
+    Button mRun;
     @Bind(R.id.bike)
-    Button bike;
+    Button mBike;
 
-    private Subscription subscription;
+    private Subscription mSubscription;
 
-    private Observable<Location> locationObservable;
+    private Observable<Location> mLocationObservable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,8 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
         final Observable<LocationRequest> locationRequests = Observable
                 // Merge all sources of clicks
                 .merge(
-                        RxView.clickEvents(run),
-                        RxView.clickEvents(bike)
+                        RxView.clickEvents(mRun),
+                        RxView.clickEvents(mBike)
                 )
                 .subscribeOn(AndroidSchedulers.mainThread())
                         // Then map all clicks to Location requests
@@ -110,7 +110,7 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
         /*
          We will use the next location observable each time a new one is available
          */
-        locationObservable = Observable
+        mLocationObservable = Observable
                 .switchOnNext(trackers)
                         // Many guys will listen to it, we shall share it.
                 .share();
@@ -120,14 +120,14 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
          Let's listen to start stop of the thing
           */
         RxView
-                .clickEvents(startStop)
+                .clickEvents(mStartStop)
                 .subscribe(
                         new Action1<ViewClickEvent>() {
                             @Override
                             public void call(ViewClickEvent viewClickEvent) {
                                 // Are we already listening ?
-                                if (subscription == null || subscription.isUnsubscribed()) {
-                                    subscription = locationObservable
+                                if (mSubscription == null || mSubscription.isUnsubscribed()) {
+                                    mSubscription = mLocationObservable
                                             // Let's unsubscribe when activity is paused
                                             .compose(MainActivity.this.<Location>bindUntilEvent(ActivityEvent.PAUSE))
                                                     // Let the activity handle what to do with the location
@@ -145,8 +145,8 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
                                 }
                                 // Stop listening to all these locations !
                                 else {
-                                    subscription.unsubscribe();
-                                    location.setText("");
+                                    mSubscription.unsubscribe();
+                                    mLocation.setText("");
                                 }
                             }
                         }
@@ -155,7 +155,7 @@ public class MainActivity extends RxAppCompatActivity implements Action1<Locatio
 
     @Override
     public void call(Location location) {
-        this.location.setText(location == null ? "" : SimpleDateFormat.getTimeInstance().format(new Date(location.getTime())) + "\n" + location.getLatitude() + " / " + location.getLongitude());
+        this.mLocation.setText(location == null ? "" : SimpleDateFormat.getTimeInstance().format(new Date(location.getTime())) + "\n" + location.getLatitude() + " / " + location.getLongitude());
     }
 
     private static class ClicksToLocationRequests implements Func1<ViewClickEvent, LocationRequest> {
